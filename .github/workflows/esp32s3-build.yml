@@ -13,7 +13,7 @@ jobs:
           arduino-cli core install esp32:esp32
           arduino-cli lib install ArduinoJson
           arduino-cli lib install WebSockets
-          arduino-cli compile --fqbn esp32:esp32:esp32s3 --warnings all BridgeController
+          arduino-cli compile --fqbn esp32:esp32:esp32s3:PartitionScheme=min_spiffs --warnings all BridgeController
       - name: Source and native policy tests
         run: |
           python3 -m unittest discover -s tests -p 'test_*.py' -v
