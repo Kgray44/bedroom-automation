@@ -438,7 +438,7 @@ void bedroomTick(){
     case BED_ACTIVE:
       if((int32_t)(now-bedroom.expires)<0){bedroom.due=min(bedroom.expires,now+400);return;}
       bedroom.stage=BED_PRE_RESTORE;bedroom.due=millis();return;
-    case BED_PRE_RESTORE:
+    case BED_PRE_RESTORE: {
       if(!bedroomRead(observed)){bedroom.due=millis()+BEDROOM_RETRY_PAUSE_MS;return;}
       BedroomRestoreDecision decision=bedroomRestorationDecision(
         bedroomEqual(observed,bedroom.before,true),bedroom.expectedValid,
@@ -452,6 +452,7 @@ void bedroomTick(){
       bedroom.forceRestore=false;
       if(bedroom.count>0){bedroomStartNext();return;}
       bedroom.restoreAttempts=0;bedroom.stage=BED_RESTORE_FADE_SETUP;bedroom.due=millis();return;
+    }
     case BED_RESTORE_FADE_SETUP:
       // Persist the expected temporary transition state before modifying it.
       // The previous user's transition settings remain in bedroom.before.
