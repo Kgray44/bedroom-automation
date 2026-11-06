@@ -1,0 +1,20 @@
+test_api_auth_and_endpoints (test_snapshot_contract.SnapshotIntegrationContract.test_api_auth_and_endpoints) ... ok
+test_bedroom_host_change_refused_during_recovery (test_snapshot_contract.SnapshotIntegrationContract.test_bedroom_host_change_refused_during_recovery) ... ok
+test_bounded_retry_and_durable_recovery (test_snapshot_contract.SnapshotIntegrationContract.test_bounded_retry_and_durable_recovery) ... ok
+test_event_and_shortcut_integration (test_snapshot_contract.SnapshotIntegrationContract.test_event_and_shortcut_integration) ... ok
+test_js_is_syntactically_valid (test_snapshot_contract.SnapshotIntegrationContract.test_js_is_syntactically_valid) ... ok
+test_manual_changes_win (test_snapshot_contract.SnapshotIntegrationContract.test_manual_changes_win) ... ok
+test_mode_validation_against_target (test_snapshot_contract.SnapshotIntegrationContract.test_mode_validation_against_target) ... ok
+test_new_controller_only (test_snapshot_contract.SnapshotIntegrationContract.test_new_controller_only) ... ok
+test_original_access_scheduler_remains (test_snapshot_contract.SnapshotIntegrationContract.test_original_access_scheduler_remains) ... ok
+test_queued_effects_share_single_snapshot (test_snapshot_contract.SnapshotIntegrationContract.test_queued_effects_share_single_snapshot) ... ok
+test_restore_uses_existing_write_endpoints (test_snapshot_contract.SnapshotIntegrationContract.test_restore_uses_existing_write_endpoints) ... ok
+test_secrets_not_committed (test_snapshot_contract.SnapshotIntegrationContract.test_secrets_not_committed) ... ok
+test_state_capture_uses_existing_read_endpoint (test_snapshot_contract.SnapshotIntegrationContract.test_state_capture_uses_existing_read_endpoint) ... ok
+test_ui (test_snapshot_contract.SnapshotIntegrationContract.test_ui) ... ok
+test_verified_not_assumed (test_snapshot_contract.SnapshotIntegrationContract.test_verified_not_assumed) ... ok
+
+----------------------------------------------------------------------
+Ran 15 tests in 0.041s
+
+OK

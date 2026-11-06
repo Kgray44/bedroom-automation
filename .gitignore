@@ -1,0 +1,16 @@
+# Device credentials, API tokens, local config, build artifacts
+**/Secrets.h
+**/Secrets.local.h
+pc-gaming/games.json
+pc-gaming/*.dpapi
+.env
+.env.*
+!.env.example
+.vscode/
+.idea/
+build/
+.pio/
+*.bin
+*.elf
+*.map
+*.log

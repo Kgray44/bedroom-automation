@@ -1,0 +1,12 @@
+{
+  "doorlightUrl": "http://doorlight.local",
+  "pollSeconds": 5,
+  "startAfterSeconds": 10,
+  "stopAfterSeconds": 25,
+  "heartbeatSeconds": 20,
+  "leaseSeconds": 90,
+  "games": [
+    { "name": "Star Citizen", "executables": ["StarCitizen.exe"] },
+    { "name": "My other game", "executables": ["YOUR-GAME-EXECUTABLE.exe"] }
+  ]
+}
