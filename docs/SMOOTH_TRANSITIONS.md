@@ -5,7 +5,7 @@
 - Fade **from the current ambient mode into each alert** and **back into the original mode**.
 - Default: **1.5 seconds in, 1.5 seconds out**, editable in the Smart Bulbs > Snapshot & Restore Studio. `GET/PUT /api/bedroom/fades` allows 0, 500, 1500, 3000, or 5000 ms (the exact native durations supported by the existing strip controller), plus an enable switch.
 - Separate indicator LED uses PWM with smoothstep attack/release instead of abrupt rectangular digital edges. For native animated strobe/flash modes, the **fade in/out of the alert** is smooth, but the *internal flashing* remains intentionally discontinuous.
-- Smart bulbs already use Home Assistant `transition` values. Gaming Mode starts with a 3-second transition, Pomodoro starts with a 4-second transition, and saved Home Assistant scenes are restored by the current integration.
+- Smart bulbs already use Home Assistant `transition` values. Pulsing actions request 1-second fades; temporary scene restoration requests 2-second fades, and gaming/Pomodoro scene restoration requests 3-second fades (support depends on the light integration). Gaming Mode starts with a 3-second transition, Pomodoro starts with a 4-second transition, and saved Home Assistant scenes are restored by the current integration.
 
 ## No changes to the existing strip firmware
 
