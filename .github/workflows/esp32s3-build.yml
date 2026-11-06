@@ -1,0 +1,23 @@
+name: ESP32-S3 firmware build
+on:
+  push:
+  pull_request:
+jobs:
+  compile:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: arduino/setup-arduino-cli@v2
+      - run: |
+          arduino-cli core update-index
+          arduino-cli core install esp32:esp32
+          arduino-cli lib install ArduinoJson
+          arduino-cli lib install WebSockets
+          arduino-cli compile --fqbn esp32:esp32:esp32s3 --warnings all BridgeController
+      - name: Source and native policy tests
+        run: |
+          python3 -m unittest discover -s tests -p 'test_*.py' -v
+          for f in tests/*_test.cpp; do
+            g++ -std=c++17 -Wall -Wextra -pedantic "$f" -o /tmp/$(basename "$f" .cpp)
+            /tmp/$(basename "$f" .cpp)
+          done
