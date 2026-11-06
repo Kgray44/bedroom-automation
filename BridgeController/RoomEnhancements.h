@@ -153,7 +153,10 @@ bool r4Scene(const String& kind,uint8_t i,const String& action){
   if(action=="create"){
     d["scene_id"]=r4SceneId(kind,i);
     d.createNestedArray("snapshot_entities").add(dlBulbConfig.entities[i]);
-  }else d["entity_id"]="scene."+r4SceneId(kind,i);
+  }else {
+    d["entity_id"]="scene."+r4SceneId(kind,i);
+    if(action=="turn_on")d["transition"]=3; // Best-effort HA scene fade
+  }
   String body;serializeJson(d,body);String response;int code;
   return dlHARequest("/api/services/scene/"+action,"POST",body,response,code);
 }
