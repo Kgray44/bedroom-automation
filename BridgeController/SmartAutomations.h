@@ -165,6 +165,7 @@ bool dlScene(uint8_t i,const String& action){
     d.createNestedArray("snapshot_entities").add(dlBulbConfig.entities[i]);
   } else {
     d["entity_id"]="scene.doorlight_flash_before_"+String(i+1);
+    if(action=="turn_on")d["transition"]=2; // HA may honor light fade on scene restore
   }
   String body;serializeJson(d,body);String response;int code;
   return dlHARequest("/api/services/scene/"+action,"POST",body,response,code);
@@ -233,7 +234,7 @@ bool dlApplyActionToBulb(uint8_t i,const DlAction &a,bool applyNight=true){
     ok=dlSendService(i,"on",max(1,min(10,pct)),"",2200,1);
     if(ok)ok=dlSendService(i,"on",pct,"",targetKelvin,
                                          max(60,a.transitionSec));
-  } else ok=dlSendService(i,op,pct,a.color,a.kelvin,a.operation=="pulse"?0:a.transitionSec);
+  } else ok=dlSendService(i,op,pct,a.color,a.kelvin,a.operation=="pulse"?1:a.transitionSec);
   if(!ok){if(temporary){if(t.sceneSaved)dlScene(i,"delete");t.active=false;}return false;}
   if(temporary){
     t.untilMs=millis()+1000UL*a.durationSec;
@@ -266,15 +267,21 @@ void dlIndicatorTick(){
   if(!dlIndicator.active)return;
   uint32_t elapsed=millis()-dlIndicator.startMs;
   if(elapsed>=dlIndicator.durationMs){dlIndicator.active=false;writeIndicator(0);return;}
-  bool on=(elapsed%(uint32_t)dlIndicator.periodMs)<(uint32_t)dlIndicator.periodMs/2;
-  writeIndicator(on?nightAdjustedBrightness(dlIndicator.brightness):0);
+  uint32_t half=max(1UL,(uint32_t)dlIndicator.periodMs/2);
+  uint32_t phase=elapsed%(uint32_t)dlIndicator.periodMs;
+  if(phase>=half){writeIndicator(0);return;}
+  auto ease=[](float x)->float{x=constrain(x,0.0f,1.0f);return x*x*(3.0f-2.0f*x);};
+  float level=ease((float)phase/min(250UL,half))*
+              ease((float)(half-phase)/min(250UL,half))*
+              ease((float)(dlIndicator.durationMs-elapsed)/250.0f);
+  writeIndicator((uint8_t)lroundf(nightAdjustedBrightness(dlIndicator.brightness)*level));
 }
 void dlTemporaryTick(){
   for(int i=0;i<2;++i){DlTemporary&t=dlTemporary[i];if(!t.active)continue;
     if((int32_t)(millis()-t.untilMs)>=0){dlFinishTemporary(i);continue;}
     if(t.pulse && (uint32_t)(millis()-t.lastPulseMs)>=1200){
       t.lastPulseMs=millis();t.pulseIsOn=!t.pulseIsOn;
-      bool ok=dlSendService(i,t.pulseIsOn?"on":"off",t.pulseBrightness,t.pulseColor,0);
+      bool ok=dlSendService(i,t.pulseIsOn?"on":"off",t.pulseBrightness,t.pulseColor,0,1);
       if(ok){t.expectedOn=t.pulseIsOn;t.expectedBrightness=t.pulseIsOn?(t.pulseBrightness*255+50)/100:0;t.expectedColor=t.pulseIsOn?t.pulseColor:"";}
     }
   }
