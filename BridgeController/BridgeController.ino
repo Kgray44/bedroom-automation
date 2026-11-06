@@ -443,7 +443,6 @@ void serviceReliableMode(){
 uint32_t slotForDate(const tm& date,int mode) {
   return (uint32_t)((date.tm_year+1900)*400+date.tm_yday)*2+(mode==1?1:0);
 }
-struct ScheduleTarget { bool valid=false; uint32_t slot=0; bool everyone=false; };
 // Most recent boundary (today or yesterday). mktime handles Eastern DST.
 ScheduleTarget currentTarget(time_t epoch) {
   ScheduleTarget best;time_t bestEpoch=0;
