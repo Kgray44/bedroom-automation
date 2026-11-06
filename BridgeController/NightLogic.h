@@ -1,6 +1,9 @@
 #pragma once
 #include <stdint.h>
 
+// Declare this in a header so Arduino auto-generated prototypes can see it.
+struct ScheduleTarget { bool valid=false; uint32_t slot=0; bool everyone=false; };
+
 // Pure, host-testable Night Mode arithmetic (HH:MM values converted to minutes).
 // Start is inclusive, end is exclusive. Settings validation forbids equal times.
 constexpr bool inTimeWindowMinutes(uint16_t current, uint16_t start, uint16_t end) {
